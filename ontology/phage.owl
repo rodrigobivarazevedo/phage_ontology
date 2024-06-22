@@ -1,0 +1,256 @@
+@prefix mego: <http://purl.obolibrary.org/obo/mego.owl#> .
+@prefix go: <http://purl.obolibrary.org/obo/go.owl#> .
+@prefix envo: <http://purl.obolibrary.org/obo/envo#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.org/ontology> a owl:Ontology ;
+    dc:creator "Rodrigo Azevedo" ;
+    dc:created "2024-06-11"^^xsd:date ;
+    owl:imports <http://purl.obolibrary.org/obo/go.owl> ,
+                <http://purl.obolibrary.org/obo/mego.owl> ,
+                <http://purl.obolibrary.org/obo/so.owl> ,
+                <http://purl.obolibrary.org/obo/envo.owl> ,
+                <http://purl.obolibrary.org/obo/bp.owl> .
+
+### Classes ###
+
+:MobileGeneticElement a rdfs:Class ;
+    rdfs:subClassOf mego:MobileGeneticElement ;
+    dc:creator "Rodrigo Azevedo" ;
+    dc:created "2024-06-11"^^xsd:date ;
+    dc:description "A class representing mobile genetic elements such as phages, plasmids, and transposons." .
+
+:Phage a rdfs:Class ;
+    rdfs:subClassOf :MobileGeneticElement ;
+    rdfs:subClassOf mego:Phage ;
+    dc:description "A class representing phages, which are viruses that infect bacteria." .
+
+:Transposon a rdfs:Class ;
+    rdfs:subClassOf :MobileGeneticElement .
+
+:DNA_Transposon a rdfs:Class ;
+    rdfs:subClassOf :Transposon .
+
+:Retrotransposon a rdfs:Class ;
+    rdfs:subClassOf :Transposon .
+
+:InsertionSequence a rdfs:Class ;
+    rdfs:subClassOf :MobileGeneticElement .
+
+:Plasmid a rdfs:Class ;
+    rdfs:subClassOf :MobileGeneticElement .
+
+:Integron a rdfs:Class ;
+    rdfs:subClassOf :MobileGeneticElement .
+
+:Bacteria a rdfs:Class ;
+    rdfs:subClassOf bp:Bacteria .
+
+:GramPositive a rdfs:Class ;
+    rdfs:subClassOf :Bacteria .
+
+:GramNegative a rdfs:Class ;
+    rdfs:subClassOf :Bacteria .
+
+:Gene a rdfs:Class ;
+    rdfs:subClassOf go:Gene .
+
+:Protein a rdfs:Class ;
+    rdfs:subClassOf so:Protein .
+    
+:Environment a rdfs:Class ;
+    rdfs:subClassOf envo:ENVO_01000328 .
+
+:Marine a rdfs:Class ;
+    rdfs:subClassOf :Environment .
+
+:Soil a rdfs:Class ;
+    rdfs:subClassOf :Environment .
+
+:HumanGut a rdfs:Class ;
+    rdfs:subClassOf :Environment .
+
+:Organism a rdfs:Class ;
+    rdfs:subClassOf mego:Organism .
+
+:Virus a rdfs:Class ;
+    rdfs:subClassOf mego:Virus .
+
+:Phage a rdfs:Class ;
+    rdfs:subClassOf :Virus .
+
+
+### Object Properties ###
+
+:interactsWith a rdf:Property ;
+    rdfs:domain :Phage ;
+    rdfs:range :Bacteria ;
+    rdfs:label "interacts with" ;
+    rdfs:comment "Defines interaction between a phage and a bacterium." ;
+    rdfs:isDefinedBy mego: .
+
+:carriesGene a rdf:Property ;
+    rdfs:domain :MobileGeneticElement ;
+    rdfs:range :Gene ;
+    rdfs:label "carries gene" ;
+    rdfs:comment "Represents genes carried by mobile genetic elements." ;
+    rdfs:isDefinedBy mego: .
+
+:hasHostRange a rdf:Property ;
+    rdfs:domain :Phage ;
+    rdfs:range xsd:string ;
+    rdfs:label "has host range" ;
+    rdfs:comment "The range of hosts a phage can infect." ;
+    rdfs:isDefinedBy : .
+
+:hasIntegrationSite a rdf:Property ;
+    rdfs:domain :MobileGeneticElement ;
+    rdfs:range xsd:string ;
+    rdfs:label "has integration site" ;
+    rdfs:comment "Site where the mobile genetic element integrates into the host genome." ;
+    rdfs:isDefinedBy mego: .
+
+:foundIn a rdf:Property ;
+    rdfs:domain :Bacteria, Phage;
+    rdfs:range :Environment ;
+    rdfs:label "found in" ;
+    rdfs:comment "Environment where the bacteria are found." ;
+    rdfs:isDefinedBy envo: .
+
+:affects a rdf:Property ;
+    rdfs:domain :Gene ;
+    rdfs:range go:BiologicalProcess ;
+    rdfs:label "affects" ;
+    rdfs:comment "Biological process affected by the gene." ;
+    rdfs:isDefinedBy go: .
+
+:encodes a rdf:Property ;
+    rdfs:domain :Gene ;
+    rdfs:range so:Protein ;
+    rdfs:label "encodes" ;
+    rdfs:comment "Protein encoded by the gene." ;
+    rdfs:isDefinedBy go: .
+
+:locatedIn a rdf:Property ;
+    rdfs:domain :Gene ;
+    rdfs:range go:CellularComponent ;
+    rdfs:label "located in" ;
+    rdfs:comment "Cellular component where the gene is located." ;
+    rdfs:isDefinedBy go: .
+
+:hasFunction a rdf:Property ;
+    rdfs:domain :Protein ;
+    rdfs:range go:BiologicalProcess ;
+    rdfs:label "has function" ;
+    rdfs:comment "Biological process performed by the protein." ;
+    rdfs:isDefinedBy go: .
+
+:hasLocation a rdf:Property ;
+    rdfs:domain :Protein ;
+    rdfs:range go:CellularComponent ;
+    rdfs:label "has location" ;
+    rdfs:comment "Cellular component where the protein is located." ;
+    rdfs:isDefinedBy go: .
+
+:hasPhenotype a rdf:Property ;
+    rdfs:domain :Organism ;
+    rdfs:range xsd:string ;
+    rdfs:label "has phenotype" ;
+    rdfs:comment "Phenotype of the organism." ;
+    rdfs:isDefinedBy mego: .
+
+:hasGeneticMaterial a rdf:Property ;
+    rdfs:domain :Organism ;
+    rdfs:range xsd:string ;
+    rdfs:label "has genetic material" ;
+    rdfs:comment "Type of genetic material (DNA/RNA) for phages or bacteria." ;
+    rdfs:isDefinedBy mego: .
+
+:hasName a rdf:Property ;
+    rdfs:domain :Organism ;
+    rdfs:range xsd:string ;
+    rdfs:label "has name" ;
+    rdfs:comment "The name of the organism." ;
+    rdfs:isDefinedBy mego: .
+
+:hasDescription a rdf:Property ;
+    rdfs:domain :Organism ;
+    rdfs:range xsd:string ;
+    rdfs:label "has description" ;
+    rdfs:comment "A brief description of the organism." ;
+    rdfs:isDefinedBy mego: .
+
+:hasReplicationMechanism a rdf:Property ;
+    rdfs:domain :MobileGeneticElement ;
+    rdfs:range xsd:string ;
+    rdfs:label "has replication mechanism" ;
+    rdfs:comment "Mechanism by which the MGE replicates." ;
+    rdfs:isDefinedBy mego: .
+
+:hasTransferMechanism a rdf:Property ;
+    rdfs:domain :MobileGeneticElement ;
+    rdfs:range xsd:string ;
+    rdfs:label "has transfer mechanism" ;
+    rdfs:comment "Mechanism by which the MGE is transferred between organisms." ;
+    rdfs:isDefinedBy mego: .
+
+:hasHostSpecificity a rdf:Property ;
+    rdfs:domain :Phage ;
+    rdfs:range xsd:string ;
+    rdfs:label "has host specificity" ;
+    rdfs:comment "Specific hosts that the phage can infect." ;
+    rdfs:isDefinedBy mego: .
+
+:hasEnvironmentalCondition a rdf:Property ;
+    rdfs:domain :Bacteria ;
+    rdfs:range xsd:string ;
+    rdfs:label "has environmental condition" ;
+    rdfs:comment "Conditions under which the bacteria thrive." ;
+    rdfs:isDefinedBy mego: .
+
+### Data Properties ###
+
+:geneticMaterial a rdf:Property ;
+    rdfs:domain :Phage, Bacteria;
+    rdfs:range xsd:string ;
+    rdfs:label "genetic material" ;
+    rdfs:comment "Type of genetic material (DNA/RNA) for phages or bacteria." .
+
+:name a rdf:Property ;
+    rdfs:domain :Organism ;
+    rdfs:range xsd:string ;
+    rdfs:label "name" ;
+    rdfs:comment "The name of the organism." .
+
+:description a rdf:Property ;
+    rdfs:domain :Organism ;
+    rdfs:range xsd:string ;
+    rdfs:label "description" ;
+    rdfs:comment "A brief description of the organism." .
+
+:replicationMechanism a rdf:Property ;
+    rdfs:domain :MobileGeneticElement ;
+    rdfs:range xsd:string ;
+    rdfs:label "replication mechanism" ;
+    rdfs:comment "Mechanism by which the MGE replicates." .
+
+:transferMechanism a rdf:Property ;
+    rdfs:domain :MobileGeneticElement ;
+    rdfs:range xsd:string ;
+    rdfs:label "transfer mechanism" ;
+    rdfs:comment "Mechanism by which the MGE is transferred between organisms." .
+
+:hostSpecificity a rdf:Property ;
+    rdfs:domain :Phage ;
+    rdfs:range xsd:string ;
+    rdfs:label "host specificity" ;
+    rdfs:comment "Specific hosts that the phage can infect." .
+
+:environmentalCondition a rdf:Property ;
+    rdfs:domain :Bacteria ;
+    rdfs:range xsd:string ;
+    rdfs:label "environmental condition" ;
+    rdfs:comment "Conditions under which the bacteria thrive." .
+

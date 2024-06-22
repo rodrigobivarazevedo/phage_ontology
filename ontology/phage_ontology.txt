@@ -1,0 +1,483 @@
+inherited ontologies
+MEGO, GO, ENVO, SO
+
+phage-bacteria interactions
+
+1. Gene Ontology (GO)
+Usage: To describe gene functions, biological processes, and cellular components.
+
+2. Mobile Genetic Elements Ontology (MEGO)
+Usage: To describe various types of mobile genetic elements, including phages and their interactions with bacterial hosts.
+
+3. Sequence Ontology (SO)
+Usage: To describe the types of sequences and regions in DNA, RNA, and protein sequences. Useful for detailing specific genetic sequences involved in phage and bacterial genomes.
+
+4. Phage Ontology (PHAGE)
+Usage: If available, specific phage ontologies could be used to describe detailed aspects of phage biology, lifecycle, and interactions with bacteria.
+
+5. Bacterial Phenotype Ontology (BP)
+Usage: To describe bacterial phenotypes and behaviors, including responses to phage infection.
+
+6. Environment Ontology (ENVO)
+Usage: To describe environmental contexts where interactions occur, which might be relevant for studying phage-bacteria interactions in different environments.
+
+7. Infectious Disease Ontology (IDO)
+Usage: To describe aspects of infectious diseases, which can be useful if you are studying pathogenic bacteria and their interactions with phages.
+
+8. Chemical Entities of Biological Interest (ChEBI)
+Usage: To describe chemical substances that might play a role in phage-bacteria interactions, such as signaling molecules, antibiotics, etc.
+
+Ontology Merging: Use tools like Protégé to merge these ontologies. 
+Create relationships between terms from different ontologies to capture the complexity of interactions. 
+For example, link a phage (MEGO) to its target gene sequences (SO) and describe its function (GO).
+
+
+Relevant Parts to Include from MEGO
+Classes Representing Different Types of MGEs:
+    •Transposons: Including DNA transposons and retrotransposons, which are significant for gene mobility and diversity.
+    •Insertion Sequences (IS Elements): Important for understanding simple transposable elements in bacteria.
+    •Plasmids: Essential for studying horizontal gene transfer, especially antibiotic resistance.
+    •Integrons: Crucial for capturing and expressing gene cassettes, often carrying antibiotic resistance genes.
+    •Phages (Bacteriophages): Central to your ontology since they directly interact with bacteria.
+
+
+Properties and Relationships:
+    •interactsWith: Define interactions between phages and bacteria.
+    •carriesGene: Represents genes carried by MGEs, such as antibiotic resistance genes.
+    •hostRange: Specifies the range of hosts that a phage can infect.
+    •hasIntegrationSite: Indicates where MGEs integrate into the host genome.
+MGE Characteristics:
+    •GeneticMaterial: Type of genetic material (DNA/RNA) in phages.
+    •ReplicationMechanism: Mechanism by which MGEs replicate and move within genomes.
+    •TransferMechanism: Mechanism by which MGEs are transferred between organisms (e.g., conjugation, transduction).
+Annotations:
+    •rdfs: Ensure all classes and properties have clear labels and comments for better understanding and usability.
+Taxonomic Information:
+    •Include relevant taxonomic hierarchies for bacteria and phages that are part of your study.
+
+Relevant GO Categories
+1.	Molecular Function:
+o	Describes activities at the molecular level, such as catalytic or binding activities.
+o	Relevant terms may include:
+	GO:0003677 - DNA binding
+	GO:0003723 - RNA binding
+	GO:0003735 - Structural constituent of ribosome
+	GO:0004518 - Nuclease activity
+	GO:0008233 - Peptidase activity
+	GO:0016787 - Hydrolase activity
+
+2.	Biological Process:
+o	Describes larger processes accomplished by multiple molecular activities, often involving multiple gene products.
+o	Relevant terms may include:
+	GO:0006260 - DNA replication
+	GO:0006355 - Regulation of transcription, DNA-templated
+	GO:0006412 - Translation
+	GO:0008283 - Cell proliferation
+	GO:0015074 - DNA integration
+	GO:0032196 - Transposition, DNA-mediated
+	GO:0044419 - Interspecies interaction between organisms
+	GO:0044770 - Cell cycle phase transition
+	GO:0044786 - Cell cycle DNA replication
+
+3.	Cellular Component:
+o	Describes locations at the levels of subcellular structures and macromolecular complexes.
+o	Relevant terms may include:
+	GO:0005737 - Cytoplasm
+	GO:0005768 - Endosome
+	GO:0005829 - Cytosol
+	GO:0005886 - Plasma membrane
+	GO:0009370 - Phage tail
+	GO:0032991 - Macromolecular complex
+	GO:0043590 - Bacterial membrane
+
+
+Example Integration Steps
+1.	Identify Genes and Functions:
+o	Determine the specific genes and their functions that are associated with MGEs in your ontology. This might include genes involved in replication, integration, antibiotic resistance, and interaction with host bacteria.
+2.	Map to GO Terms:
+o	For each identified gene/function, find corresponding GO terms that describe these functions, processes, or components.
+3.	Annotate MEGO Classes:
+o	Annotate your MEGO classes with the appropriate GO terms. This can be done using properties such as oboInOwl:hasDbXref to create links to the GO terms.
+
+
+
+1. Define Class Definitions:
+
+Class: Environment
+Class: ResearchEntity
+Class: BiologicalEntity
+Class: Organism
+    SubClassOf: BiologicalEntity
+Class MobileGeneticElement
+    SubClassOf: Organism
+Class: Bacteria
+    SubClassOf: MobileGeneticElement
+Class: Phage
+    SubClassOf: MobileGeneticElement
+Class: Gene
+    SubClassOf: BiologicalEntity
+    EquivalentTo: GO:Gene
+Class: Protein
+    SubClassOf: BiologicalEntity
+    EquivalentTo: GO:Protein
+Class: ClinicalTrial
+    SubClassOf: ResearchEntity
+
+
+2. Define Properties and Relationships
+•	Object Properties:
+•	infectedBy: Bacteria -> Phage
+•	hasGene: Bacteria -> Gene
+•	encodes: Gene -> Protein
+•	participatedIn: Bacteria -> ClinicalTrial
+•	locatedAt: Environment -> (Bacteria | Phage)
+
+3. Define Property Definitions:
+
+ObjectProperty: interactsWith
+    Domain: Bacteria
+    Range: Phage
+
+ObjectProperty: hasGene
+    Domain: Bacteria, Phage
+    Range: Gene
+
+ObjectProperty: encodes
+    Domain: Gene
+    Range: Protein
+
+ObjectProperty: participatedIn
+    Domain: Bacteria, Phage
+    Range: ClinicalTrial
+
+ObjectProperty: references
+    Domain: Publication
+    Range: {Bacteria, Phage, Gene}
+
+ObjectProperty: locatedAt
+    Domain: Environment
+    Range: Bacteria, Phage
+
+4. Annotations and Metadata:
+
+AnnotationProperty: definition
+AnnotationProperty: synonym
+AnnotationProperty: source
+
+Class: Bacteria
+    Annotations:
+        definition "Single-celled microorganisms."
+        synonym "Bacterium"
+        source "NCBI Taxonomy"
+
+ObjectProperty: infectedBy
+    Annotations:
+        definition "Indicates that a bacteria is infected by a specific phage."
+        source "Phage Ontology"
+
+
+
+
+Combined Ontology Example
+This combined ontology incorporates elements from Gene Ontology (GO), Mobile Genetic Elements Ontology (MEGO),
+ Sequence Ontology (SO), Phage Ontology (PHAGE), Bacterial Phenotype Ontology (BP), and Environment Ontology (ENVO).
+
+1. Ontology Integration in Protégé
+Base Ontology Definition:
+
+Classes:
+
+:MobileGeneticElement (MEGO)
+    :Phage (MEGO/PHAGE)
+        :Myoviridae (MEGO/PHAGE)
+            :T4likevirus (PHAGE)
+                :T4Phage (PHAGE)
+        :Siphoviridae (MEGO/PHAGE)
+            :Lambda (PHAGE)
+                :LambdaPhage (PHAGE)
+        :Podoviridae (MEGO/PHAGE)
+            :T7likevirus (PHAGE)
+                :T7Phage (PHAGE)
+    :Transposon (MEGO)
+        :DNA_Transposon (MEGO)
+        :Retrotransposon (MEGO)
+    :InsertionSequence (MEGO)
+    :Plasmid (MEGO)
+    :Integron (MEGO)
+
+:Bacteria (BP)
+    :GramPositive (BP)
+        :Actinobacteria (BP)
+            :Mycobacterium (BP)
+                :MycobacteriumTuberculosis (BP)
+        :Firmicutes (BP)
+            :Bacillus (BP)
+                :BacillusSubtilis (BP)
+    :GramNegative (BP)
+        :Proteobacteria (BP)
+            :Escherichia (BP)
+                :EscherichiaColi (BP)
+        :Bacteroidetes (BP)
+            :Bacteroides (BP)
+                :BacteroidesFragilis (BP)
+
+:Gene (SO)
+    :GeneX (GO)
+        :function (GO)
+        :biologicalProcess (GO)
+        :cellularComponent (GO)
+
+:Protein (SO)
+
+:Environment (ENVO)
+    :Marine (ENVO)
+    :Soil (ENVO)
+    :HumanGut (ENVO)
+
+Properties Definition:
+
+:ObjectProperty
+    :interactsWith (MEGO)
+        :domain :Phage
+        :range :Bacteria
+        :rdfs:label "interacts with"
+        :rdfs:comment "Defines interaction between a phage and a bacterium."
+
+:hasGene (MEGO)
+    :domain :MobileGeneticElement
+    :range :Gene
+    :rdfs:label "carries gene"
+    :rdfs:comment "Represents genes carried by mobile genetic elements."
+
+:hostRange (PHAGE)
+    :domain :Phage
+    :range xsd:string
+    :rdfs:label "host range"
+    :rdfs:comment "The range of hosts a phage can infect."
+
+:hasIntegrationSite (MEGO)
+    :domain :MobileGeneticElement
+    :range xsd:string
+    :rdfs:label "has integration site"
+    :rdfs:comment "Site where the mobile genetic element integrates into the host genome."
+
+:foundIn (ENVO)
+    :domain :Bacteria
+    :range :Environment
+    :rdfs:label "found in"
+    :rdfs:comment "Environment where the bacteria are found."
+
+:affects (GO)
+    :domain :Gene
+    :range :BiologicalProcess
+    :rdfs:label "affects"
+    :rdfs:comment "Biological process affected by the gene."
+
+:locatedIn (GO)
+    :domain :Gene
+    :range :CellularComponent
+    :rdfs:label "located in"
+    :rdfs:comment "Cellular component where the gene is located."
+
+:foundIn (ENVO)
+    :domain :Environment
+    :range :Phage
+    :rdfs:label "found in"
+    :rdfs:comment "Environment where Phage is Located."
+
+:encodes (SO)
+    :domain :Gene
+    :range :Protein
+    :rdfs:label "encodes"
+    :rdfs:comment "Protein encoded from gene"
+
+
+Data Properties
+
+:DataProperty
+    :geneticMaterial
+        :domain :Phage
+        :range xsd:string
+        :rdfs:label "genetic material"
+        :rdfs:comment "Type of genetic material (DNA/RNA) for phages."
+
+    :name
+        :domain :Organism
+        :range xsd:string
+        :rdfs:label "name"
+        :rdfs:comment "The name of the organism."
+
+    :description
+        :domain :Organism
+        :range xsd:string
+        :rdfs:label "description"
+        :rdfs:comment "A brief description of the organism."
+
+    :replicationMechanism
+        :domain :MobileGeneticElement
+        :range xsd:string
+        :rdfs:label "replication mechanism"
+        :rdfs:comment "Mechanism by which the MGE replicates."
+
+    :transferMechanism
+        :domain :MobileGeneticElement
+        :range xsd:string
+        :rdfs:label "transfer mechanism"
+        :rdfs:comment "Mechanism by which the MGE is transferred between organisms."
+
+
+
+Ontology
+
+@prefix : <http://example.org/ontology#> .
+@prefix mego: <http://purl.obolibrary.org/obo/mego#> .
+@prefix bp: <http://purl.obolibrary.org/obo/bp#> .
+@prefix go: <http://purl.obolibrary.org/obo/go#> .
+@prefix envo: <http://purl.obolibrary.org/obo/envo#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes ###
+
+:MobileGeneticElement (MEGO)
+    :Phage (MEGO/PHAGE)
+        :Myoviridae (MEGO/PHAGE)
+            :T4likevirus (PHAGE)
+                :T4Phage (PHAGE)
+        :Siphoviridae (MEGO/PHAGE)
+            :Lambda (PHAGE)
+                :LambdaPhage (PHAGE)
+        :Podoviridae (MEGO/PHAGE)
+            :T7likevirus (PHAGE)
+                :T7Phage (PHAGE)
+    :Transposon (MEGO)
+        :DNA_Transposon (MEGO)
+        :Retrotransposon (MEGO)
+    :InsertionSequence (MEGO)
+    :Plasmid (MEGO)
+    :Integron (MEGO)
+
+:Bacteria (BP)
+    :GramPositive (BP)
+        :Actinobacteria (BP)
+            :Mycobacterium (BP)
+                :MycobacteriumTuberculosis (BP)
+        :Firmicutes (BP)
+            :Bacillus (BP)
+                :BacillusSubtilis (BP)
+    :GramNegative (BP)
+        :Proteobacteria (BP)
+            :Escherichia (BP)
+                :EscherichiaColi (BP)
+        :Bacteroidetes (BP)
+            :Bacteroides (BP)
+                :BacteroidesFragilis (BP)
+
+:Gene (SO)
+    :GeneX (GO)
+        :function (GO)
+        :biologicalProcess (GO)
+        :cellularComponent (GO)
+    :Protein (SO)
+
+:Environment (ENVO)
+    :Marine (ENVO)
+    :Soil (ENVO)
+    :HumanGut (ENVO)
+
+
+:Phage a rdfs:Class ;
+    rdfs:subClassOf mego:MobileGeneticElement .
+
+:Bacteria a rdfs:Class ;
+    rdfs:subClassOf <http://purl.obolibrary.org/obo/NCBITaxon#2> .
+
+:Gene a rdfs:Class ;
+    rdfs:subClassOf go:Gene .
+
+:Environment a rdfs:Class ;
+    rdfs:subClassOf envo:ENVO_01000328 .
+
+### Object Properties ###
+:interactsWith a rdfs:ObjectProperty ;
+    rdfs:domain :Phage ;
+    rdfs:range :Bacteria ;
+    rdfs:label "interacts with" ;
+    rdfs:comment "Defines interaction between a phage and a bacterium." ;
+    rdfs:isDefinedBy mego: .
+
+:carriesGene a rdfs:ObjectProperty ;
+    rdfs:domain mego:MobileGeneticElement ;
+    rdfs:range :Gene ;
+    rdfs:label "carries gene" ;
+    rdfs:comment "Represents genes carried by mobile genetic elements." ;
+    rdfs:isDefinedBy mego: .
+
+:hostRange a rdfs:ObjectProperty ;
+    rdfs:domain :Phage ;
+    rdfs:range xsd:string ;
+    rdfs:label "host range" ;
+    rdfs:comment "The range of hosts a phage can infect." ;
+    rdfs:isDefinedBy phage: .
+
+:hasIntegrationSite a rdfs:ObjectProperty ;
+    rdfs:domain mego:MobileGeneticElement ;
+    rdfs:range xsd:string ;
+    rdfs:label "has integration site" ;
+    rdfs:comment "Site where the mobile genetic element integrates into the host genome." ;
+    rdfs:isDefinedBy mego: .
+
+:foundIn a rdfs:ObjectProperty ;
+    rdfs:domain :Bacteria ;
+    rdfs:range :Environment ;
+    rdfs:label "found in" ;
+    rdfs:comment "Environment where the bacteria are found." ;
+    rdfs:isDefinedBy envo: .
+
+:affects a rdfs:ObjectProperty ;
+    rdfs:domain :Gene ;
+    rdfs:range go:BiologicalProcess ;
+    rdfs:label "affects" ;
+    rdfs:comment "Biological process affected by the gene." ;
+    rdfs:isDefinedBy go: .
+
+:locatedIn a rdfs:ObjectProperty ;
+    rdfs:domain :Gene ;
+    rdfs:range go:CellularComponent ;
+    rdfs:label "located in" ;
+    rdfs:comment "Cellular component where the gene is located." ;
+    rdfs:isDefinedBy go: .
+
+### Data Properties ###
+:geneticMaterial a rdfs:DatatypeProperty ;
+    rdfs:domain :Phage ;
+    rdfs:range xsd:string ;
+    rdfs:label "genetic material" ;
+    rdfs:comment "Type of genetic material (DNA/RNA) for phages." .
+
+:name a rdfs:DatatypeProperty ;
+    rdfs:domain :Organism ;
+    rdfs:range xsd:string ;
+    rdfs:label "name" ;
+    rdfs:comment "The name of the organism." .
+
+:description a rdfs:DatatypeProperty ;
+    rdfs:domain :Organism ;
+    rdfs:range xsd:string ;
+    rdfs:label "description" ;
+    rdfs:comment "A brief description of the organism." .
+
+:replicationMechanism a rdfs:DatatypeProperty ;
+    rdfs:domain mego:MobileGeneticElement ;
+    rdfs:range xsd:string ;
+    rdfs:label "replication mechanism" ;
+    rdfs:comment "Mechanism by which the MGE replicates." .
+
+:transferMechanism a rdfs:DatatypeProperty ;
+    rdfs:domain mego:MobileGeneticElement ;
+    rdfs:range xsd:string ;
+    rdfs:label "transfer mechanism" ;
+    rdfs:comment "Mechanism by which the MGE is transferred between organisms." .
+
+
+
